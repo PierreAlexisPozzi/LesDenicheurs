@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Dénicheurs TCG – Cartes Pokémon, NBA & NFL</title>
+<meta name="description" content="Les Dénicheurs TCG – Achetez vos cartes Pokémon, NBA et NFL. Boutique en ligne, lives WhatNot & Voggt. Expédition rapide, qualité garantie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070f;
+    --bg2: #0f0f1c;
+    --bg3: #15152a;
+    --surface: #1a1a30;
+    --surface2: #22223a;
+    --red: #ff2d2d;
+    --red-glow: rgba(255,45,45,0.25);
+    --cyan: #00e5ff;
+    --cyan-glow: rgba(0,229,255,0.2);
+    --gold: #ffc93c;
+    --text: #eeeef8;
+    --text-muted: #8585a8;
+    --border: rgba(255,255,255,0.07);
+    --border-active: rgba(0,229,255,0.35);
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+  /* NOISE */
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+
+  /* HEADER */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,15,0.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 clamp(16px,4vw,48px);height:64px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:2px;color:var(--text);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .logo span{color:var(--cyan);}
+  .logo-badge{background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:.55rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:1px;margin-top:4px;}
+  nav{display:flex;align-items:center;gap:4px;}
+  .nav-link{background:none;border:none;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;padding:8px 14px;border-radius:8px;cursor:pointer;transition:color .2s,background .2s;text-decoration:none;}
+  .nav-link:hover,.nav-link.active{color:var(--text);background:var(--surface);}
+  .nav-link.active{color:var(--cyan);}
+  .cart-btn{position:relative;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:border-color .2s,background .2s;margin-left:8px;}
+  .cart-btn:hover{border-color:var(--cyan);background:var(--bg3);}
+  .cart-count{background:var(--red);color:#fff;font-size:.65rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;}
+  .hamburger{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:8px;}
+  .mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(7,7,15,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);z-index:99;flex-direction:column;padding:16px;gap:4px;}
+  .mobile-nav.open{display:flex;}
+  .mobile-nav .nav-link{font-size:1rem;padding:12px 16px;}
+
+  /* PAGES */
+  .page{display:none;min-height:100vh;padding-top:64px;}
+  .page.active{display:block;}
+
+  /* HERO */
+  .hero{position:relative;min-height:calc(100vh - 64px);display:flex;align-items:center;padding:80px clamp(16px,6vw,80px);overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 60% 70% at 80% 40%, rgba(0,229,255,.07) 0%, transparent 70%),radial-gradient(ellipse 50% 60% at 20% 80%, rgba(255,45,45,.06) 0%, transparent 70%),radial-gradient(ellipse 40% 40% at 60% 10%, rgba(255,201,60,.05) 0%, transparent 60%);}
+  .hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);background-size:60px 60px;}
+  .hero-content{position:relative;z-index:1;max-width:680px;}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-active);color:var(--cyan);font-size:.78rem;font-weight:600;letter-spacing:1.5px;padding:6px 14px;border-radius:100px;margin-bottom:28px;text-transform:uppercase;}
+  .hero-tag::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,7rem);line-height:.95;letter-spacing:2px;margin-bottom:24px;}
+  .hero h1 em{font-style:normal;color:var(--cyan);}
+  .hero h1 strong{font-style:normal;color:var(--gold);}
+  .hero-sub{color:var(--text-muted);font-size:1.05rem;line-height:1.6;margin-bottom:40px;max-width:520px;}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn-primary{background:var(--cyan);color:#07070f;font-weight:700;font-size:.95rem;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 0 24px var(--cyan-glow);text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(0,229,255,.4);}
+  .btn-secondary{background:transparent;color:var(--text);font-weight:600;font-size:.95rem;padding:14px 28px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,background .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+  .btn-secondary:hover{border-color:var(--text-muted);background:var(--surface);}
+  .hero-floats{position:absolute;right:clamp(-40px,-2vw,60px);top:50%;transform:translateY(-50%);display:grid;grid-template-columns:1fr 1fr;gap:16px;z-index:1;}
+  .card-float{width:130px;height:185px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:3.5rem;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:float var(--dur,4s) ease-in-out infinite;animation-delay:var(--delay,0s);position:relative;overflow:hidden;}
+  .card-float::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 50%,rgba(0,0,0,.1) 100%);}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-12px) rotate(var(--rot,0deg))}}
+  .cf1{--dur:3.8s;--delay:0s;--rot:-3deg;}
+  .cf2{--dur:4.5s;--delay:.5s;--rot:2deg;margin-top:30px;}
+  .cf3{--dur:4.1s;--delay:.3s;--rot:1deg;margin-top:-20px;}
+  .cf4{--dur:3.6s;--delay:.8s;--rot:-2deg;margin-top:10px;}
+
+  /* SECTIONS */
+  .section{padding:80px clamp(16px,5vw,64px);}
+  .section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:1.5px;margin-bottom:8px;}
+  .section-sub{color:var(--text-muted);font-size:.95rem;margin-bottom:40px;max-width:520px;}
+
+  /* LIVES */
+  .lives-section{padding:48px clamp(16px,5vw,64px);background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .lives-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:32px;}
+  .live-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;display:flex;align-items:center;gap:18px;transition:border-color .2s,transform .2s;text-decoration:none;color:var(--text);}
+  .live-card:hover{border-color:var(--border-active);transform:translateY(-3px);}
+  .live-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;}
+  .live-card h3{font-size:1rem;font-weight:700;margin-bottom:4px;}
+  .live-card p{font-size:.82rem;color:var(--text-muted);}
+  .live-badge{margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,45,45,.12);color:var(--red);font-size:.7rem;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:100px;text-transform:uppercase;}
+  .live-badge::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite;}
+
+  /* CAT CARDS */
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:32px;}
+  .cat-card{border-radius:var(--radius-lg);padding:32px;border:1px solid var(--border);cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;}
+  .cat-card:hover{transform:translateY(-4px);}
+  .cat-card-poke{background:linear-gradient(135deg,#1a1a0a 0%,#2a2500 100%);border-color:rgba(255,222,0,.2);}
+  .cat-card-poke:hover{border-color:rgba(255,222,0,.5);}
+  .cat-card-nba{background:linear-gradient(135deg,#1a0a0c 0%,#280812 100%);border-color:rgba(201,36,63,.2);}
+  .cat-card-nba:hover{border-color:rgba(201,36,63,.5);}
+  .cat-card-nfl{background:linear-gradient(135deg,#0a0c1a 0%,#080d25 100%);border-color:rgba(1,51,105,.35);}
+  .cat-card-nfl:hover{border-color:rgba(100,149,237,.4);}
+  .cat-emoji{font-size:3rem;margin-bottom:16px;display:block;}
+  .cat-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:8px;}
+  .cat-card p{font-size:.85rem;color:var(--text-muted);margin-bottom:16px;}
+  .cat-arrow{color:var(--text-muted);font-size:.85rem;}
+
+  /* SOCIALS */
+  .socials-bar{display:flex;flex-wrap:wrap;gap:12px;padding:32px clamp(16px,5vw,64px);border-top:1px solid var(--border);}
+  .social-pill{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);padding:10px 18px;border-radius:100px;text-decoration:none;color:var(--text);font-size:.85rem;font-weight:600;transition:border-color .2s,background .2s;}
+  .social-pill:hover{border-color:var(--border-active);background:var(--bg3);}
+
+  /* PRODUCTS */
+  .product-header{padding:60px clamp(16px,5vw,64px) 32px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:flex-end;gap:24px;justify-content:space-between;}
+  .product-header-accent{display:inline-block;width:4px;height:40px;border-radius:2px;margin-right:12px;vertical-align:middle;}
+  .filter-row{display:flex;flex-wrap:wrap;gap:8px;padding:20px clamp(16px,5vw,64px);border-bottom:1px solid var(--border);}
+  .filter-btn{background:var(--surface);border:1px solid var(--border);color:var(--text-muted);padding:7px 16px;border-radius:100px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+  .filter-btn:hover,.filter-btn.active{background:var(--bg3);border-color:var(--cyan);color:var(--cyan);}
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;padding:32px clamp(16px,5vw,64px);}
+  .product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer;position:relative;}
+  .product-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.15);box-shadow:0 16px 48px rgba(0,0,0,.4);}
+  .product-img{width:100%;aspect-ratio:3/4;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden;}
+  .product-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 50%);}
+  .holographic{background:linear-gradient(90deg,rgba(255,222,0,.05) 0%,rgba(0,229,255,.1) 25%,rgba(255,45,45,.05) 50%,rgba(0,229,255,.1) 75%,rgba(255,222,0,.05) 100%);background-size:200% 100%;animation:shimmer 4s linear infinite;}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  .product-badge{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:6px;text-transform:uppercase;z-index:2;}
+  .product-body{padding:16px;}
+  .product-series{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+  .product-name{font-weight:700;font-size:.95rem;margin-bottom:4px;line-height:1.3;}
+  .product-condition{font-size:.75rem;color:var(--text-muted);margin-bottom:12px;}
+  .product-footer{display:flex;align-items:center;justify-content:space-between;}
+  .product-price{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;}
+  .add-cart-btn{background:var(--cyan);color:#07070f;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;transition:background .15s,transform .15s;flex-shrink:0;}
+  .add-cart-btn:hover{background:#33ecff;transform:scale(1.1);}
+  .shopify-note{margin:0 clamp(16px,5vw,64px) 32px;background:var(--bg2);border:1px dashed rgba(0,229,255,.25);border-radius:var(--radius);padding:16px 20px;font-size:.82rem;color:var(--text-muted);display:flex;align-items:flex-start;gap:12px;}
+  .shopify-note strong{color:var(--cyan);}
+
+  /* CART */
+  .cart-section{padding:60px clamp(16px,5vw,64px);}
+  .cart-section h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:1.5px;margin-bottom:8px;}
+  .cart-layout{display:grid;grid-template-columns:1fr 360px;gap:32px;margin-top:40px;}
+  .cart-items{display:flex;flex-direction:column;gap:12px;}
+  .cart-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px;}
+  .cart-item-img{width:60px;height:85px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;}
+  .cart-item-info{flex:1;}
+  .cart-item-name{font-weight:600;margin-bottom:4px;}
+  .cart-item-meta{font-size:.8rem;color:var(--text-muted);}
+  .cart-item-price{font-family:'Space Mono',monospace;font-weight:700;}
+  .remove-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;padding:4px;transition:color .2s;}
+  .remove-btn:hover{color:var(--red);}
+  .qty-ctrl{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .qty-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+  .qty-btn:hover{border-color:var(--cyan);}
+  .qty-val{font-size:.85rem;font-weight:700;min-width:20px;text-align:center;}
+  .cart-summary{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;position:sticky;top:80px;height:fit-content;}
+  .cart-summary h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;margin-bottom:20px;}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:.9rem;}
+  .summary-row.total{border-top:1px solid var(--border);margin-top:16px;padding-top:16px;font-weight:700;font-size:1.05rem;}
+  .summary-row.total span:last-child{font-family:'Space Mono',monospace;color:var(--cyan);}
+  .checkout-btn{width:100%;background:var(--cyan);color:#07070f;font-weight:700;font-size:.95rem;padding:16px;border-radius:10px;border:none;cursor:pointer;margin-top:20px;transition:background .15s,transform .15s;box-shadow:0 0 24px var(--cyan-glow);}
+  .checkout-btn:hover{background:#33ecff;transform:translateY(-2px);}
+  .cart-empty{text-align:center;padding:80px 20px;color:var(--text-muted);}
+  .cart-empty span{font-size:4rem;display:block;margin-bottom:16px;}
+  .cart-empty p{margin-bottom:24px;}
+
+  /* LEGAL */
+  .legal-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:20px clamp(16px,5vw,64px) 0;border-bottom:1px solid var(--border);}
+  .legal-tab{background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+  .legal-tab.active{background:var(--surface);color:var(--text);border-color:var(--border-active);}
+  .legal-section{max-width:820px;margin:0 auto;padding:60px clamp(16px,5vw,64px);}
+  .legal-section h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:1.5px;margin-bottom:8px;}
+  .legal-section .updated{font-size:.8rem;color:var(--text-muted);margin-bottom:40px;font-family:'Space Mono',monospace;}
+  .legal-section h2{font-size:1.1rem;font-weight:700;margin:32px 0 12px;color:var(--cyan);}
+  .legal-section p,.legal-section li{font-size:.9rem;color:var(--text-muted);line-height:1.8;}
+  .legal-section ul{padding-left:20px;margin-bottom:12px;}
+  .legal-section li{margin-bottom:6px;}
+  .legal-section a{color:var(--cyan);text-decoration:none;}
+  .legal-section a:hover{text-decoration:underline;}
+
+  /* FOOTER */
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px clamp(16px,5vw,64px) 24px;}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;}
+  .footer-brand h4{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:8px;}
+  .footer-brand p{font-size:.82rem;color:var(--text-muted);line-height:1.6;}
+  .footer-col h5{font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;}
+  .footer-col a{display:block;color:var(--text-muted);font-size:.85rem;text-decoration:none;margin-bottom:8px;transition:color .2s;cursor:pointer;}
+  .footer-col a:hover{color:var(--text);}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font-size:.78rem;color:var(--text-muted);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;right:24px;z-index:200;background:var(--surface);border:1px solid var(--border-active);border-radius:10px;padding:14px 20px;font-size:.85rem;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){.hero-floats{display:none;}.cart-layout{grid-template-columns:1fr;}nav{display:none;}.hamburger{display:flex;}.cart-btn span{display:none;}}
+  @media(max-width:600px){.hero{padding:60px 16px;}.hero h1{font-size:3rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="navigate('home')">
+    Les <span>Dénicheurs</span>
+    <span class="logo-badge">TCG</span>
+  </div>
+  <nav>
+    <button class="nav-link" onclick="navigate('home')">Accueil</button>
+    <button class="nav-link" onclick="navigate('pokemon')">Pokémon</button>
+    <button class="nav-link" onclick="navigate('nba')">NBA</button>
+    <button class="nav-link" onclick="navigate('nfl')">NFL</button>
+    <button class="nav-link" onclick="navigate('legal')">Légal</button>
+  </nav>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="cart-btn" onclick="navigate('cart')">
+      🛒 <span>Panier</span>
+      <div class="cart-count" id="cart-count">0</div>
+    </button>
+    <button class="hamburger" onclick="toggleMenu()">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+      </svg>
+    </button>
+  </div>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+  <button class="nav-link" onclick="navigate('home');toggleMenu()">🏠 Accueil</button>
+  <button class="nav-link" onclick="navigate('pokemon');toggleMenu()">⚡ Pokémon</button>
+  <button class="nav-link" onclick="navigate('nba');toggleMenu()">🏀 NBA</button>
+  <button class="nav-link" onclick="navigate('nfl');toggleMenu()">🏈 NFL</button>
+  <button class="nav-link" onclick="navigate('cart');toggleMenu()">🛒 Panier</button>
+  <button class="nav-link" onclick="navigate('legal');toggleMenu()">📋 Légal</button>
+</div>
+
+<!-- PAGE HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">🔴 Lives en cours — WhatNot & Voggt</div>
+      <h1>Ta carte,<br><em>ton</em> <strong>graal.</strong></h1>
+      <p class="hero-sub">Les Dénicheurs TCG — spécialistes des cartes Pokémon, NBA & NFL. Boutique en ligne, pulls en live, qualité garantie.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="navigate('pokemon')">🔍 Explorer les cartes</button>
+        <button class="btn-secondary" onclick="document.getElementById('lives-anchor').scrollIntoView({behavior:'smooth'})">📺 Nos lives</button>
+      </div>
+    </div>
+    <div class="hero-floats">
+      <div class="card-float cf1">⚡</div>
+      <div class="card-float cf2">🏀</div>
+      <div class="card-float cf3">🐉</div>
+      <div class="card-float cf4">🏈</div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:40px;">
+    <div class="section-label">📦 Collections</div>
+    <h2 class="section-title">Explore par catégorie</h2>
+    <p class="section-sub">Du Charizard vintage au rookie de la saison — tout ce qui fait rêver les collectionneurs.</p>
+    <div class="cat-grid">
+      <div class="cat-card cat-card-poke" onclick="navigate('pokemon')">
+        <span class="cat-emoji">⚡</span>
+        <h3>Pokémon</h3>
+        <p>XY, Sword & Shield, Scarlet & Violet. Holos, Alt Arts, Full Arts, Vintage.</p>
+        <div class="cat-arrow">Voir la collection →</div>
+      </div>
+      <div class="cat-card cat-card-nba" onclick="navigate('nba')">
+        <span class="cat-emoji">🏀</span>
+        <h3>NBA</h3>
+        <p>Prizm, Select, Mosaic. Rookies, Veterans, Legends. PSA & raw.</p>
+        <div class="cat-arrow">Voir la collection →</div>
+      </div>
+      <div class="cat-card cat-card-nfl" onclick="navigate('nfl')">
+        <span class="cat-emoji">🏈</span>
+        <h3>NFL</h3>
+        <p>Panini Prizm, Donruss, Score. Patches, Autos, numérotées.</p>
+        <div class="cat-arrow">Voir la collection →</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="lives-anchor"></div>
+  <section class="lives-section">
+    <div class="section-label">🎥 Vente en live</div>
+    <h2 class="section-title">Retrouve-nous en direct</h2>
+    <div class="lives-grid">
+      <a href="https://www.whatnot.com" target="_blank" class="live-card">
+        <div class="live-icon" style="background:rgba(255,45,45,.12);">🔴</div>
+        <div>
+          <h3>WhatNot</h3>
+          <p>Lives quotidiens — tirages en direct, enchères et breaks.</p>
+          <div class="live-badge">Live maintenant</div>
+        </div>
+      </a>
+      <a href="https://www.voggt.com" target="_blank" class="live-card">
+        <div class="live-icon" style="background:rgba(0,229,255,.1);">🎙️</div>
+        <div>
+          <h3>Voggt</h3>
+          <p>La marketplace française — sessions exclusives et deals.</p>
+          <div class="live-badge">Sessions régulières</div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com" target="_blank" class="live-card">
+        <div class="live-icon" style="background:rgba(255,120,180,.1);">📸</div>
+        <div>
+          <h3>Instagram</h3>
+          <p>Stories, reels et teasers de nos plus belles pièces.</p>
+          <div class="live-badge">Suivre</div>
+        </div>
+      </a>
+      <a href="https://www.tiktok.com" target="_blank" class="live-card">
+        <div class="live-icon" style="background:rgba(255,255,255,.06);">🎵</div>
+        <div>
+          <h3>TikTok</h3>
+          <p>Pulls, tirages et découvertes en format court.</p>
+          <div class="live-badge">Suivre</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <div class="socials-bar">
+    <span style="color:var(--text-muted);font-size:.85rem;align-self:center;margin-right:8px;">Retrouve-nous :</span>
+    <a href="https://www.tiktok.com" target="_blank" class="social-pill">🎵 TikTok</a>
+    <a href="https://www.instagram.com" target="_blank" class="social-pill">📸 Instagram</a>
+    <a href="https://www.whatnot.com" target="_blank" class="social-pill">🔴 WhatNot</a>
+    <a href="https://www.voggt.com" target="_blank" class="social-pill">🎙️ Voggt</a>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>Les Dénicheurs TCG</h4>
+        <p>Spécialistes des cartes à collectionner depuis 2022. Pokémon, NBA, NFL — boutique en ligne et lives.</p>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+          <a href="https://www.tiktok.com" target="_blank" class="social-pill" style="padding:6px 12px;font-size:.76rem;">🎵 TikTok</a>
+          <a href="https://www.instagram.com" target="_blank" class="social-pill" style="padding:6px 12px;font-size:.76rem;">📸 Instagram</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Collections</h5>
+        <a onclick="navigate('pokemon')">⚡ Pokémon</a>
+        <a onclick="navigate('nba')">🏀 NBA</a>
+        <a onclick="navigate('nfl')">🏈 NFL</a>
+      </div>
+      <div class="footer-col">
+        <h5>Lives</h5>
+        <a href="https://www.whatnot.com" target="_blank">🔴 WhatNot</a>
+        <a href="https://www.voggt.com" target="_blank">🎙️ Voggt</a>
+      </div>
+      <div class="footer-col">
+        <h5>Informations</h5>
+        <a onclick="navigate('legal');setLegal('mentions')">Mentions légales</a>
+        <a onclick="navigate('legal');setLegal('cgv')">CGV</a>
+        <a onclick="navigate('legal');setLegal('confidentialite')">Confidentialité</a>
+        <a onclick="navigate('legal');setLegal('cookies')">Cookies</a>
+        <a onclick="navigate('legal');setLegal('retours')">Retours</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Les Dénicheurs TCG — Tous droits réservés</span>
+      <span>SIRET : XX XXX XXX XXXXX</span>
+    </div>
+  </footer>
+</div>
+
+<!-- PAGE POKÉMON -->
+<div class="page" id="page-pokemon">
+  <div class="product-header">
+    <div>
+      <div class="section-label">Collection</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:1.5px;">
+        <span class="product-header-accent" style="background:linear-gradient(180deg,#ffde00,#ff8c00);"></span>
+        Cartes Pokémon
+      </h1>
+      <p style="color:var(--text-muted);font-size:.9rem;margin-top:4px;">XY · Sword & Shield · Scarlet & Violet · Vintage</p>
+    </div>
+    <span id="poke-count" style="color:var(--text-muted);font-size:.82rem;"></span>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterP('pokemon','Tous',this)">Tous</button>
+    <button class="filter-btn" onclick="filterP('pokemon','Scarlet & Violet',this)">Scarlet & Violet</button>
+    <button class="filter-btn" onclick="filterP('pokemon','Sword & Shield',this)">Sword & Shield</button>
+    <button class="filter-btn" onclick="filterP('pokemon','XY',this)">XY</button>
+    <button class="filter-btn" onclick="filterP('pokemon','Vintage',this)">Vintage</button>
+    <button class="filter-btn" onclick="filterP('pokemon','Graded',this)">Gradées</button>
+  </div>
+  <div class="shopify-note">
+    <span>🔗</span>
+    <span><strong>Intégration Shopify :</strong> Remplacez les boutons "+" par vos Shopify Buy Buttons. Chargez le SDK Shopify et associez chaque carte avec son <code>productId</code> depuis votre admin Shopify.</span>
+  </div>
+  <div class="products-grid" id="poke-grid"></div>
+  <footer style="margin-top:40px;">
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding:24px clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;font-size:.78rem;color:var(--text-muted);">
+      <span>© 2025 Les Dénicheurs TCG</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a onclick="navigate('legal');setLegal('cgv')" style="color:var(--text-muted);cursor:pointer;">CGV</a>
+        <a onclick="navigate('legal');setLegal('mentions')" style="color:var(--text-muted);cursor:pointer;">Mentions légales</a>
+        <a onclick="navigate('legal');setLegal('retours')" style="color:var(--text-muted);cursor:pointer;">Retours</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- PAGE NBA -->
+<div class="page" id="page-nba">
+  <div class="product-header">
+    <div>
+      <div class="section-label">Collection</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:1.5px;">
+        <span class="product-header-accent" style="background:linear-gradient(180deg,#c9243f,#f77f00);"></span>
+        Cartes NBA
+      </h1>
+      <p style="color:var(--text-muted);font-size:.9rem;margin-top:4px;">Prizm · Select · Mosaic · Optic · PSA</p>
+    </div>
+    <span id="nba-count" style="color:var(--text-muted);font-size:.82rem;"></span>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterP('nba','Tous',this)">Tous</button>
+    <button class="filter-btn" onclick="filterP('nba','Prizm',this)">Prizm</button>
+    <button class="filter-btn" onclick="filterP('nba','Select',this)">Select</button>
+    <button class="filter-btn" onclick="filterP('nba','Mosaic',this)">Mosaic</button>
+    <button class="filter-btn" onclick="filterP('nba','Rookie',this)">Rookies</button>
+    <button class="filter-btn" onclick="filterP('nba','Graded',this)">Gradées PSA</button>
+  </div>
+  <div class="products-grid" id="nba-grid"></div>
+  <footer style="margin-top:40px;">
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding:24px clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;font-size:.78rem;color:var(--text-muted);">
+      <span>© 2025 Les Dénicheurs TCG</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a onclick="navigate('legal');setLegal('cgv')" style="color:var(--text-muted);cursor:pointer;">CGV</a>
+        <a onclick="navigate('legal');setLegal('retours')" style="color:var(--text-muted);cursor:pointer;">Retours</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- PAGE NFL -->
+<div class="page" id="page-nfl">
+  <div class="product-header">
+    <div>
+      <div class="section-label">Collection</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:1.5px;">
+        <span class="product-header-accent" style="background:linear-gradient(180deg,#6495ed,#013369);"></span>
+        Cartes NFL
+      </h1>
+      <p style="color:var(--text-muted);font-size:.9rem;margin-top:4px;">Panini Prizm · Donruss · Score · Patches · Autos</p>
+    </div>
+    <span id="nfl-count" style="color:var(--text-muted);font-size:.82rem;"></span>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterP('nfl','Tous',this)">Tous</button>
+    <button class="filter-btn" onclick="filterP('nfl','Donruss',this)">Donruss</button>
+    <button class="filter-btn" onclick="filterP('nfl','Score',this)">Score</button>
+    <button class="filter-btn" onclick="filterP('nfl','Panini',this)">Panini Prizm</button>
+    <button class="filter-btn" onclick="filterP('nfl','Auto',this)">Autographes</button>
+    <button class="filter-btn" onclick="filterP('nfl','Patch',this)">Patches</button>
+  </div>
+  <div class="products-grid" id="nfl-grid"></div>
+  <footer style="margin-top:40px;">
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding:24px clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;font-size:.78rem;color:var(--text-muted);">
+      <span>© 2025 Les Dénicheurs TCG</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a onclick="navigate('legal');setLegal('cgv')" style="color:var(--text-muted);cursor:pointer;">CGV</a>
+        <a onclick="navigate('legal');setLegal('retours')" style="color:var(--text-muted);cursor:pointer;">Retours</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- PAGE PANIER -->
+<div class="page" id="page-cart">
+  <div class="cart-section">
+    <div class="section-label">Shopping</div>
+    <h1>Mon Panier</h1>
+    <div id="cart-content"></div>
+  </div>
+  <footer style="margin-top:40px;">
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding:24px clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;font-size:.78rem;color:var(--text-muted);">
+      <span>© 2025 Les Dénicheurs TCG</span>
+      <div style="display:flex;gap:16px;">
+        <a onclick="navigate('legal');setLegal('cgv')" style="color:var(--text-muted);cursor:pointer;">CGV</a>
+        <a onclick="navigate('legal');setLegal('retours')" style="color:var(--text-muted);cursor:pointer;">Retours</a>
+        <a onclick="navigate('legal');setLegal('confidentialite')" style="color:var(--text-muted);cursor:pointer;">Confidentialité</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- PAGE LÉGAL -->
+<div class="page" id="page-legal">
+  <div class="legal-tabs">
+    <button class="legal-tab active" onclick="setLegal('mentions',this)">Mentions légales</button>
+    <button class="legal-tab" onclick="setLegal('cgv',this)">CGV</button>
+    <button class="legal-tab" onclick="setLegal('confidentialite',this)">Confidentialité</button>
+    <button class="legal-tab" onclick="setLegal('cookies',this)">Cookies</button>
+    <button class="legal-tab" onclick="setLegal('retours',this)">Retours & Remboursements</button>
+  </div>
+  <div id="legal-content"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════ CATALOGUE ════
+const CAT = {
+  pokemon:[
+    {id:'pk1',name:'Charizard ex SIR',series:'Scarlet & Violet',set:'Obsidian Flames',cond:'Near Mint',price:189,badge:'🔥 Populaire',e:'🐉',f:'Scarlet & Violet'},
+    {id:'pk2',name:'Pikachu Illustrator Holo',series:'Vintage',set:'Collection Gallery',cond:'Excellent',price:349,badge:'✨ Rare',e:'⚡',f:'Vintage'},
+    {id:'pk3',name:'Miraidon ex Full Art',series:'Scarlet & Violet',set:'Violet ex',cond:'Near Mint',price:24,e:'⚡',f:'Scarlet & Violet'},
+    {id:'pk4',name:'Rayquaza VMAX Alt Art',series:'Sword & Shield',set:'Evolving Skies',cond:'Near Mint',price:159,badge:'💎 Premium',e:'🌀',f:'Sword & Shield'},
+    {id:'pk5',name:'Umbreon VMAX Alt Art',series:'Sword & Shield',set:'Evolving Skies',cond:'Near Mint',price:199,badge:'💎 Premium',e:'🌑',f:'Sword & Shield'},
+    {id:'pk6',name:'Mewtwo & Mew GX',series:'Sword & Shield',set:'Unified Minds',cond:'Very Good',price:39,e:'🔮',f:'Sword & Shield'},
+    {id:'pk7',name:'Charizard Base Set 1st Ed.',series:'Vintage',set:'Base Set',cond:'Good',price:890,badge:'🏆 PSA 7',e:'🔥',f:'Graded'},
+    {id:'pk8',name:'Gardevoir ex SIR',series:'Scarlet & Violet',set:'Paldea Evolved',cond:'Near Mint',price:42,e:'💜',f:'Scarlet & Violet'},
+    {id:'pk9',name:'Blastoise GX Rainbow',series:'XY',set:'Dragon Majesty',cond:'Near Mint',price:28,e:'🌊',f:'XY'},
+    {id:'pk10',name:'Lugia V Gold',series:'Sword & Shield',set:'Silver Tempest',cond:'Near Mint',price:19,e:'🌟',f:'Sword & Shield'},
+    {id:'pk11',name:'Pikachu VMAX Rainbow',series:'Sword & Shield',set:'Vivid Voltage',cond:'Near Mint',price:55,e:'⚡',f:'Sword & Shield'},
+    {id:'pk12',name:'Mewtwo ex Full Art',series:'Scarlet & Violet',set:'Paldean Fates',cond:'Near Mint',price:31,e:'🔮',f:'Scarlet & Violet'},
+  ],
+  nba:[
+    {id:'nb1',name:'Victor Wembanyama Prizm RC',series:'Prizm',set:'Prizm 2024',cond:'Near Mint',price:245,badge:'🔥 Rookie',e:'🏀',f:'Rookie'},
+    {id:'nb2',name:'LeBron James Silver Prizm',series:'Prizm',set:'Prizm 2023-24',cond:'Near Mint',price:89,e:'👑',f:'Prizm'},
+    {id:'nb3',name:'Steph Curry Gold Prizm /10',series:'Prizm',set:'Prizm 2022-23',cond:'Near Mint',price:750,badge:'💎 /10',e:'✨',f:'Graded'},
+    {id:'nb4',name:'Anthony Edwards Select',series:'Select',set:'Select 2023-24',cond:'Near Mint',price:38,e:'🏀',f:'Select'},
+    {id:'nb5',name:'Luka Doncic Mosaic',series:'Mosaic',set:'Mosaic 2023-24',cond:'Near Mint',price:55,e:'🌟',f:'Mosaic'},
+    {id:'nb6',name:'Jayson Tatum PSA 10',series:'Prizm',set:'Prizm 2022-23',cond:'PSA 10',price:120,badge:'🏆 PSA 10',e:'🏀',f:'Graded'},
+    {id:'nb7',name:'Nikola Jokic Prizm',series:'Prizm',set:'Prizm 2024',cond:'Near Mint',price:65,e:'🏆',f:'Prizm'},
+    {id:'nb8',name:'Cade Cunningham Rookie',series:'Select',set:'Select 2021-22',cond:'Near Mint',price:29,badge:'Rookie',e:'🏀',f:'Rookie'},
+    {id:'nb9',name:'Michael Jordan Optic',series:'Mosaic',set:'Donruss Optic 2023',cond:'Near Mint',price:180,badge:'🐐 Légende',e:'🐂',f:'Mosaic'},
+    {id:'nb10',name:'Shai Gilgeous-Alexander',series:'Select',set:'Select 2023-24',cond:'Near Mint',price:45,e:'🏀',f:'Select'},
+    {id:'nb11',name:'Paolo Banchero Auto Prizm',series:'Prizm',set:'Prizm 2022-23',cond:'Near Mint',price:89,badge:'✍️ Auto',e:'✍️',f:'Rookie'},
+    {id:'nb12',name:'Kobe Bryant Gold PSA 9',series:'Prizm',set:'Prizm 2020',cond:'PSA 9',price:420,badge:'🏆 PSA 9',e:'💛',f:'Graded'},
+  ],
+  nfl:[
+    {id:'nf1',name:'Patrick Mahomes Prizm',series:'Panini',set:'Prizm 2023',cond:'Near Mint',price:135,badge:'🔥 Star',e:'🏈',f:'Panini'},
+    {id:'nf2',name:'C.J. Stroud Rookie Prizm',series:'Panini',set:'Prizm 2023',cond:'Near Mint',price:89,badge:'Rookie',e:'🏈',f:'Rookie'},
+    {id:'nf3',name:'Josh Allen Donruss Auto /25',series:'Donruss',set:'Donruss 2022',cond:'Near Mint',price:320,badge:'✍️ /25',e:'✍️',f:'Auto'},
+    {id:'nf4',name:'Lamar Jackson Score',series:'Score',set:'Score 2023',cond:'Near Mint',price:28,e:'🏃',f:'Score'},
+    {id:'nf5',name:'Justin Jefferson Patch Auto /10',series:'Panini',set:'Nat. Treasures',cond:'Near Mint',price:899,badge:'💎 Patch /10',e:'💎',f:'Patch'},
+    {id:'nf6',name:'Travis Kelce Prizm',series:'Panini',set:'Prizm 2023',cond:'Near Mint',price:55,e:'🏈',f:'Panini'},
+    {id:'nf7',name:'Bryce Young Rookie',series:'Panini',set:'Select 2023',cond:'Near Mint',price:49,badge:'Rookie',e:'🏈',f:'Rookie'},
+    {id:'nf8',name:'Jerry Rice Donruss 1986',series:'Donruss',set:'Donruss 1986',cond:'Excellent',price:210,badge:'🐐 Vintage',e:'🌟',f:'Donruss'},
+    {id:'nf9',name:'Joe Burrow Score Prizm',series:'Score',set:'Score 2023',cond:'Near Mint',price:35,e:'🏈',f:'Score'},
+    {id:'nf10',name:'Tom Brady Flawless Patch /10',series:'Panini',set:'Flawless 2022',cond:'Near Mint',price:1850,badge:'👑 /10 Final Season',e:'🏆',f:'Patch'},
+    {id:'nf11',name:'Jalen Hurts Prizm Silver',series:'Panini',set:'Prizm 2023',cond:'Near Mint',price:78,e:'🦅',f:'Panini'},
+    {id:'nf12',name:'CJ Stroud Score Rookie',series:'Score',set:'Score 2023',cond:'Near Mint',price:22,badge:'Rookie',e:'🏈',f:'Score'},
+  ]
+};
+
+// ════ CART ════
+let cart = JSON.parse(localStorage.getItem('dtcg-cart')||'[]');
+function saveCart(){localStorage.setItem('dtcg-cart',JSON.stringify(cart));}
+function updateBadge(){document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0);}
+function addToCart(id,cat){
+  const p=CAT[cat].find(x=>x.id===id);if(!p)return;
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty++;else cart.push({...p,qty:1,cat});
+  saveCart();updateBadge();toast('✅ '+p.name+' ajouté !');
+}
+function removeItem(id){cart=cart.filter(x=>x.id!==id);saveCart();updateBadge();renderCart();}
+function changeQty(id,d){
+  const i=cart.find(x=>x.id===id);if(!i)return;
+  i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);
+  saveCart();updateBadge();renderCart();
+}
+
+// ════ NAVIGATION ════
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('page-'+page);
+  if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  const labels={home:'accueil',pokemon:'pokémon',nba:'nba',nfl:'nfl',cart:'panier',legal:'légal'};
+  document.querySelectorAll('.nav-link').forEach(b=>{
+    const t=b.textContent.toLowerCase();
+    if(labels[page]&&t.includes(labels[page]))b.classList.add('active');
+  });
+  if(page==='cart')renderCart();
+}
+function toggleMenu(){document.getElementById('mobile-nav').classList.toggle('open');}
+
+// ════ PRODUCTS ════
+function renderCat(cat,filter){
+  const key=cat==='pokemon'?'poke':cat;
+  const grid=document.getElementById(key+'-grid');
+  const countEl=document.getElementById(key+'-count');
+  if(!grid)return;
+  const list=filter&&filter!=='Tous'?CAT[cat].filter(p=>p.f===filter||p.f.includes(filter)):CAT[cat];
+  if(countEl)countEl.textContent=list.length+' article'+(list.length>1?'s':'');
+  grid.innerHTML=list.map(p=>`
+    <div class="product-card">
+      <div class="product-img holographic">
+        ${p.badge?`<div class="product-badge">${p.badge}</div>`:''}
+        <span style="filter:drop-shadow(0 0 12px rgba(255,255,255,.3));font-size:5rem;">${p.e}</span>
+      </div>
+      <div class="product-body">
+        <div class="product-series">${p.series} · ${p.set}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-condition">${p.cond}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price.toLocaleString('fr-FR')} €</div>
+          <button class="add-cart-btn" onclick="addToCart('${p.id}','${cat}')" title="Ajouter au panier">+</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function filterP(cat,filter,btn){
+  btn.closest('.filter-row').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCat(cat,filter);
+}
+
+// ════ CART RENDER ════
+function renderCart(){
+  const el=document.getElementById('cart-content');if(!el)return;
+  if(!cart.length){
+    el.innerHTML=`<div class="cart-empty"><span>🛒</span><p>Ton panier est vide.<br>Découvre nos collections !</p><button class="btn-primary" onclick="navigate('home')">Explorer</button></div>`;
+    return;
+  }
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const ship=sub>=60?0:4.9;
+  el.innerHTML=`
+    <div class="cart-layout">
+      <div class="cart-items">${cart.map(i=>`
+        <div class="cart-item">
+          <div class="cart-item-img">${i.e}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${i.name}</div>
+            <div class="cart-item-meta">${i.series} · ${i.cond}</div>
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="changeQty('${i.id}',-1)">−</button>
+              <span class="qty-val">${i.qty}</span>
+              <button class="qty-btn" onclick="changeQty('${i.id}',1)">+</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            <div class="cart-item-price">${(i.price*i.qty).toLocaleString('fr-FR')} €</div>
+            <button class="remove-btn" onclick="removeItem('${i.id}')">🗑️</button>
+          </div>
+        </div>`).join('')}</div>
+      <div class="cart-summary">
+        <h3>Résumé</h3>
+        <div class="summary-row"><span>Sous-total</span><span>${sub.toFixed(2)} €</span></div>
+        <div class="summary-row"><span>Livraison</span><span>${ship===0?'<span style="color:var(--cyan)">Gratuite 🎉</span>':ship.toFixed(2)+' €'}</span></div>
+        ${ship>0?'<p style="font-size:.73rem;color:var(--text-muted);margin-top:-4px;margin-bottom:8px;">Gratuite dès 60 €</p>':''}
+        <div class="summary-row total"><span>Total TTC</span><span>${(sub+ship).toFixed(2)} €</span></div>
+        <button class="checkout-btn" onclick="checkout()">🛍️ Passer commande</button>
+        <p style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-top:10px;">🔒 Paiement sécurisé via Shopify</p>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);font-size:.7rem;color:var(--text-muted);">
+          💡 <strong>Shopify :</strong> Remplacez la fonction <code>checkout()</code> par un redirect vers votre store Shopify ou intégrez le Storefront API.
+        </div>
+      </div>
+    </div>`;
+}
+function checkout(){
+  // POINT D'INTÉGRATION SHOPIFY
+  // window.location.href = 'https://votre-boutique.myshopify.com/cart';
+  toast('🔗 Connexion à Shopify en cours...');
+}
+
+// ════ LÉGAL ════
+const LEGAL = {
+  mentions:`<div class="legal-section">
+    <h1>Mentions Légales</h1>
+    <p class="updated">Dernière mise à jour : Janvier 2025</p>
+    <h2>1. Éditeur du site</h2>
+    <p>Le site <strong>les-denicheurs-tcg.fr</strong> est édité par :</p>
+    <ul><li>Raison sociale : Les Dénicheurs TCG</li><li>Forme juridique : [Micro-entreprise / SASU — à compléter]</li><li>SIRET : XX XXX XXX XXXXX</li><li>N° TVA intracommunautaire : FR XX XXXXXXXXX</li><li>Adresse : [Adresse complète]</li><li>Email : contact@les-denicheurs-tcg.fr</li></ul>
+    <h2>2. Directeur de la publication</h2>
+    <p>[Prénom Nom], en qualité de gérant.</p>
+    <h2>3. Hébergement</h2>
+    <p>Shopify Inc., 151 O'Connor Street, Ottawa, Ontario, K2P 2L8, Canada. <a href="https://shopify.com" target="_blank">shopify.com</a></p>
+    <h2>4. Propriété intellectuelle</h2>
+    <p>L'ensemble des éléments du site est la propriété de Les Dénicheurs TCG. Pokémon est une marque de Nintendo/The Pokémon Company. NBA et NFL sont des marques de leurs propriétaires respectifs. Les Dénicheurs TCG est un revendeur indépendant non affilié à ces entités.</p>
+    <h2>5. Limitation de responsabilité</h2>
+    <p>Les Dénicheurs TCG ne saurait être tenu responsable des dommages résultant de l'utilisation du site. Les informations sont fournies à titre indicatif et peuvent être modifiées sans préavis.</p>
+    <h2>6. Droit applicable</h2>
+    <p>Le site est soumis au droit français. En cas de litige, les tribunaux français seront compétents.</p>
+  </div>`,
+  cgv:`<div class="legal-section">
+    <h1>Conditions Générales de Vente</h1>
+    <p class="updated">Dernière mise à jour : Janvier 2025</p>
+    <h2>1. Objet</h2>
+    <p>Les présentes CGV régissent toutes les ventes entre Les Dénicheurs TCG ("le Vendeur") et tout acheteur ("l'Acheteur") via le site, la boutique Shopify, et les plateformes WhatNot et Voggt.</p>
+    <h2>2. Produits</h2>
+    <p>Cartes à collectionner Pokémon, NBA et NFL. Chaque article est décrit avec son état, son édition et son prix. Les cartes gradées (PSA, BGS) sont livrées dans leur étui d'origine.</p>
+    <h2>3. Prix</h2>
+    <p>Prix en euros TTC. Le Vendeur peut modifier ses prix à tout moment. Les commandes sont facturées au prix en vigueur lors de la validation. Les frais de livraison sont indiqués avant confirmation.</p>
+    <h2>4. Commande et paiement</h2>
+    <p>La commande est définitive après paiement complet. Moyens acceptés : carte bancaire, Apple Pay, Google Pay via Shopify Payments. Transactions sécurisées par SSL.</p>
+    <h2>5. Livraison</h2>
+    <ul><li>Expédition sous 1-3 jours ouvrés.</li><li>France métropolitaine : 4,90 € (gratuite dès 60 €).</li><li>Europe : à partir de 9,90 €.</li><li>International : sur devis.</li><li>Emballage protecteur systématique (sleeve + toploader + boîte rigide selon valeur).</li><li>Perte/dommage : signaler sous 48h à contact@les-denicheurs-tcg.fr.</li></ul>
+    <h2>6. Droit de rétractation</h2>
+    <p>Conformément à l'art. L221-18 du Code de la consommation : <strong>14 jours calendaires</strong> à compter de la réception pour se rétracter. Frais de retour à la charge de l'Acheteur. Produit à retourner dans son état d'origine.</p>
+    <p><strong>Exception :</strong> Les achats en live (WhatNot, Voggt) ouverts/tirés en direct ne peuvent être retournés sauf non-conformité.</p>
+    <h2>7. Garanties légales</h2>
+    <p>Garantie légale de conformité (art. L217-4 et s.) et garantie contre vices cachés (art. 1641 et s. du Code civil).</p>
+    <h2>8. Médiation et litiges</h2>
+    <p>En cas de litige : contact@les-denicheurs-tcg.fr. À défaut : médiation via <a href="https://www.mediation-conso.fr" target="_blank">mediation-conso.fr</a> ou plateforme européenne <a href="https://ec.europa.eu/consumers/odr" target="_blank">ec.europa.eu/consumers/odr</a>.</p>
+    <h2>9. Droit applicable</h2>
+    <p>Droit français. Juridictions du ressort du siège du Vendeur compétentes.</p>
+  </div>`,
+  confidentialite:`<div class="legal-section">
+    <h1>Politique de Confidentialité</h1>
+    <p class="updated">Dernière mise à jour : Janvier 2025 · Conforme RGPD</p>
+    <h2>1. Responsable du traitement</h2>
+    <p>Les Dénicheurs TCG — contact@les-denicheurs-tcg.fr</p>
+    <h2>2. Données collectées</h2>
+    <ul><li><strong>Commandes :</strong> nom, prénom, adresse, email, téléphone.</li><li><strong>Paiement :</strong> traité par Shopify Payments (non stocké par nos soins).</li><li><strong>Navigation :</strong> cookies techniques et analytiques.</li><li><strong>Réseaux sociaux :</strong> données publiques liées aux interactions TikTok, Instagram, WhatNot, Voggt.</li></ul>
+    <h2>3. Finalités et bases légales</h2>
+    <ul><li>Traitement des commandes — Exécution du contrat</li><li>Gestion SAV — Intérêt légitime</li><li>Emails transactionnels — Exécution du contrat</li><li>Newsletter — Consentement</li><li>Statistiques site — Intérêt légitime</li><li>Obligations comptables — Obligation légale</li></ul>
+    <h2>4. Destinataires</h2>
+    <p>Shopify Inc. (e-commerce), transporteurs (La Poste, Colissimo, Mondial Relay), prestataires emailing. Soumis à garanties RGPD.</p>
+    <h2>5. Conservation</h2>
+    <ul><li>Données de commande : 5 ans (obligation légale).</li><li>Compte client : durée d'activité + 3 ans.</li><li>Marketing : jusqu'à désinscription.</li></ul>
+    <h2>6. Vos droits RGPD</h2>
+    <p>Accès, rectification, effacement, limitation, portabilité, opposition, retrait du consentement. Contact : <a href="mailto:contact@les-denicheurs-tcg.fr">contact@les-denicheurs-tcg.fr</a>. Réclamation : <a href="https://www.cnil.fr" target="_blank">cnil.fr</a>.</p>
+    <h2>7. Transferts hors UE</h2>
+    <p>Shopify Inc. (Canada) bénéficie d'une décision d'adéquation de la Commission européenne.</p>
+  </div>`,
+  cookies:`<div class="legal-section">
+    <h1>Politique de Cookies</h1>
+    <p class="updated">Dernière mise à jour : Janvier 2025</p>
+    <h2>Qu'est-ce qu'un cookie ?</h2>
+    <p>Fichier texte déposé sur votre appareil lors de la visite du site, permettant de mémoriser des informations de navigation.</p>
+    <h2>Cookies utilisés</h2>
+    <ul>
+      <li><strong>Strictement nécessaires :</strong> panier, session. Durée : session. Pas de consentement requis.</li>
+      <li><strong>Analytiques :</strong> Google Analytics / Shopify Analytics. Durée : 13 mois. Consentement requis.</li>
+      <li><strong>Marketing :</strong> Pixel Meta (Instagram), TikTok Pixel. Durée : 6 mois. Consentement requis.</li>
+      <li><strong>Shopify :</strong> checkout, gestion panier. Durée : 2 ans. Nécessaires à la transaction.</li>
+    </ul>
+    <h2>Gestion des préférences</h2>
+    <p>Refusez les cookies non essentiels via notre bandeau ou les paramètres de votre navigateur. Plus d'infos : <a href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser" target="_blank">CNIL — Gérer les cookies</a>.</p>
+    <h2>Réseaux sociaux</h2>
+    <p>TikTok et Instagram peuvent déposer leurs propres cookies lors d'interactions. Soumis à leurs politiques respectives.</p>
+  </div>`,
+  retours:`<div class="legal-section">
+    <h1>Retours & Remboursements</h1>
+    <p class="updated">Dernière mise à jour : Janvier 2025</p>
+    <h2>Droit de rétractation — 14 jours</h2>
+    <p>Conformément à l'art. L221-18 du Code de la consommation, vous avez <strong>14 jours calendaires</strong> à compter de la réception pour vous rétracter, sans motif ni pénalité.</p>
+    <h2>Procédure de retour</h2>
+    <ul>
+      <li>1. Contactez-nous : <a href="mailto:contact@les-denicheurs-tcg.fr">contact@les-denicheurs-tcg.fr</a> avec votre n° de commande et motif.</li>
+      <li>2. Confirmation et adresse de retour sous 24-48h ouvrées.</li>
+      <li>3. Renvoyez le produit dans son état d'origine, protégé, dans les 14 jours.</li>
+      <li>4. Frais de retour à votre charge (sauf erreur de notre part ou produit défectueux).</li>
+    </ul>
+    <h2>État des produits</h2>
+    <ul><li>Cartes retournées dans l'état de réception.</li><li>Cartes gradées dans leur étui d'origine.</li><li>Produit endommagé par l'acheteur = remboursement partiel possible.</li></ul>
+    <h2>Remboursement</h2>
+    <p>Après réception et vérification : remboursement sous <strong>14 jours maximum</strong> via le moyen de paiement d'origine.</p>
+    <h2>Non remboursables</h2>
+    <ul><li>Boosters et produits scellés ouverts.</li><li>Articles achetés en live et tirés/ouverts en direct (sauf non-conformité).</li><li>Produits dont l'état a été altéré après réception.</li></ul>
+    <h2>Article non conforme ou endommagé</h2>
+    <p>Contactez-nous immédiatement avec photos. Frais de retour pris en charge + remboursement intégral ou échange.</p>
+    <h2>Contact SAV</h2>
+    <p>📧 <a href="mailto:contact@les-denicheurs-tcg.fr">contact@les-denicheurs-tcg.fr</a><br>📱 @lesdenicheursm tcg (Instagram / TikTok)<br>Réponse sous 24-48h ouvrées.</p>
+  </div>`
+};
+
+function setLegal(key,btn){
+  if(btn){document.querySelectorAll('.legal-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  else{
+    const tabs=document.querySelectorAll('.legal-tab');
+    tabs.forEach(t=>{t.classList.remove('active');if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+key+"'"))t.classList.add('active');});
+  }
+  document.getElementById('legal-content').innerHTML=LEGAL[key]||'';
+}
+
+// ════ TOAST ════
+let tt;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ════ INIT ════
+renderCat('pokemon');renderCat('nba');renderCat('nfl');
+updateBadge();
+setLegal('mentions');
+</script>
+</body>
+</html>
